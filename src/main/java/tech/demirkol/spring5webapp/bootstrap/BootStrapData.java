@@ -4,18 +4,22 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import tech.demirkol.spring5webapp.domain.Author;
 import tech.demirkol.spring5webapp.domain.Book;
+import tech.demirkol.spring5webapp.domain.Publisher;
 import tech.demirkol.spring5webapp.repositories.AuthorRepository;
 import tech.demirkol.spring5webapp.repositories.BookRepository;
+import tech.demirkol.spring5webapp.repositories.PublisherRepository;
 
 @Component
 public class BootStrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherReporsitory;
 
-    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherReporsitory) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherReporsitory = publisherReporsitory;
     }
 
     @Override
@@ -30,14 +34,21 @@ public class BootStrapData implements CommandLineRunner {
         osman.getBooks().add(book2);
         book1.getAuthors().add(osman);
 
+        Publisher publisher = new Publisher("Oxford");
+
+
         authorRepository.save(eric);
         authorRepository.save(osman);
 
         bookRepository.save(book1);
         bookRepository.save(book2);
 
+        publisherReporsitory.save(publisher);
+
+
         System.out.println("Bootstrap starting!");
         System.out.println("Number of books: " + bookRepository.count());
         System.out.println("Number of author: " + authorRepository.count());
+        System.out.println("Number of publishers: " + publisherReporsitory.count());
     }
 }
